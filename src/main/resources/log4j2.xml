@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- Rolling File Appender -->
+        <RollingFile name="RollingFile" fileName="/mnt/${env:HOSTNAME}-product-management.log"
+                     filePattern="/mnt/${env:HOSTNAME}-customer.mgmt.system-%d{yyyy-MM-dd}.%i.log.gz">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10G" />
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Root Logger -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+
+        <!-- Custom Loggers -->
+        <Logger name="org.hibernate.SQL" level="debug"/>
+        <Logger name="org.springframework" level="info"/>
+        <Logger name="com.customer.mgmt.system" level="info"/>
+        <Logger name="logging-group.tomcat" level="info"/>
+    </Loggers>
+</Configuration>
